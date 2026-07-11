@@ -1,21 +1,22 @@
-from flask import Flask, jsonify
+from fastapi import FastAPI
+import uvicorn
 
-app = Flask(__name__)
+from routes.settlement import router as settlement_router
+from routes.financial import router as financial_router
+from routes.negotiation import router as negotiation_router
 
-@app.route("/")
+app = FastAPI(title="FinReliefAI Backend")
+
+app.include_router(settlement_router)
+app.include_router(financial_router)
+app.include_router(negotiation_router)
+
+@app.get("/")
 def home():
-    return jsonify({
-        "message": "Welcome to FinRelief AI Backend",
+    return {
+        "message": "Welcome to FinReliefAI Backend",
         "status": "Running Successfully"
-    })
-
-@app.route("/health")
-def health():
-    return jsonify({
-        "status": "Healthy",
-        "backend": "Flask",
-        "project": "FinRelief AI"
-    })
+    }
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
