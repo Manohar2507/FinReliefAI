@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
-
+from routes.loan import router as loan_router
 from routes.settlement import router as settlement_router
 from routes.financial import router as financial_router
 from routes.negotiation import router as negotiation_router
@@ -10,7 +10,7 @@ app = FastAPI(title="FinReliefAI Backend")
 app.include_router(settlement_router)
 app.include_router(financial_router)
 app.include_router(negotiation_router)
-
+app.include_router(loan_router)
 @app.get("/")
 def home():
     return {
